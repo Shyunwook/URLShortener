@@ -24,6 +24,7 @@
   border: none;
   border-radius: 2px;
   height: 36px;
+  padding-left: 10px;
 }
 
 #submit_btn{
