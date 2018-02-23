@@ -32,12 +32,12 @@ app.post('/url_list',function(req,res){
   Urls.find(function(err,result){
     if(result){
       var res_arr = new Array();
-      
+
       result.forEach(
         function see(value,index){
           var aJson = new Object();
           aJson.count = value.count
-          aJson._id = bijective.encode(value._id);
+          aJson._id = bijective.decode(value._id);
           aJson.url = value.url
           aJson.created_at = getFormatDate(value.created_at);
           console.log(value.url);
@@ -65,10 +65,6 @@ function getFormatDate(date){
 	return  year + '.' + month + '.' + day;
 
 }
-
-
-
-출처: http://heum-story.tistory.com/27 [Simple Dev]
 
 app.get('/:key',function(req,res){
 
