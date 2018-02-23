@@ -1,0 +1,89 @@
+<html>
+  <head>
+    <title>URL Shortener</title>
+
+    <script src="http://code.jquery.com/jquery-2.1.1.min.js"></script>
+    <!-- 합쳐지고 최소화된 최신 CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+
+    <!-- 부가적인 테마 -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+
+    <!-- 합쳐지고 최소화된 최신 자바스크립트 -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <br><br>
+    <div class="search_area form-group">
+      <h2 class="white_f">Simplify your links</h2>
+      <form id="createUrl" role="form">
+        <input type="url" id="longUrl" placeholder="Your original URL here">
+        <button id="submit_btn" type="submit">Shorten URL</button>
+      </form>
+      <p class="white_f">All goo.gl URLs and click analytics are public can be accessed by anyone</p>
+    </div>
+    <br><br>
+
+    <h2><strong id="shortUrl"></strong></h2>
+    <div class="row show-grid">
+      <div class="urls bs-example col-md-8" data-example-id="simple-table">
+        <table class="url_table table table-bordered col-md-6 col-md-offset-3">
+          <thead class="table_head" style="background:#f5f5f5">
+            <tr>
+              <th>Original URL</th>
+              <th>Created</th>
+              <th>Short URL</th>
+              <th>All Clicks</th>
+            </tr>
+          </thead>
+          <tbody class="table_body">
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <script type="text/javascript">
+      var API_SERVER = 'http://localhost:3000';
+      $.ajax({
+           url:'/url_list',
+           type:'post',
+           success:function(data){
+             console.log(data.length);
+             var table_string;
+             $.each(data,function(index,item){
+               table_string = '<tr><td scope="row"><a href="'+item.url+'" style="text-decoration:none">'+item.url+'</a></td><td>'+item.created_at
+               +'</td><td><a href=http://localhost:3000/"'+item._id+'" style="text-decoration:none">'+'http://localhost:3000/'+item._id+'</td><td>'+item.count
+               +'</td></tr>';
+               $('.table_body').append(table_string);
+             })
+           }
+       })
+
+
+      $( "#createUrl" ).submit(function( event ) {
+
+        event.preventDefault();
+
+        var longUrl = $('#longUrl').val();
+
+        $.ajax({
+          url: API_SERVER + '/url/' + encodeURIComponent(longUrl)
+          , crossDomain: true
+          , dataType: "json"
+          , type: 'GET'
+          , data: {}
+          , success: success
+          , error: function(jqXHR, textStatus, errorThrown){
+              alert(errorThrown);
+          }
+        });
+
+      });
+
+      var success = function(data){
+        $('#shortUrl').text(API_SERVER +'/' +data.key);
+      };
+    </script>
+  </body>
+ </html>
