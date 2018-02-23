@@ -53,7 +53,7 @@
              var table_string;
              $.each(data,function(index,item){
                table_string = '<tr><td scope="row"><a href="'+item.url+'" style="text-decoration:none">'+item.url+'</a></td><td>'+item.created_at
-               +'</td><td><a href=http://localhost:3000/"'+item._id+'" style="text-decoration:none">'+'http://localhost:3000/'+item._id+'</td><td>'+item.count
+               +'</td><td><a href=http://localhost:3000/'+item._id+' style="text-decoration:none">'+'http://localhost:3000/'+item._id+'</td><td>'+item.count
                +'</td></tr>';
                $('.table_body').append(table_string);
              })
